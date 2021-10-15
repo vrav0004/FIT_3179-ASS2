@@ -1,0 +1,130 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+   
+    "data": {
+        "url": "mass_shootings2.csv"
+    },
+    
+    "width": 1050,
+    "height": 500,
+    
+    
+    "autosize": {
+        "type": "fit",
+        "contains": "padding",
+        "resize": true
+      },
+    "params": [{"name": "Outlier",  "value": {"min": 585}, "bind":{"input":"select", "options":[{"min": 585}, {"min": 1000}],  "labels":[ "Without 2017 Outlier", "With 2017 Outlier"], "name": "Outlier: "} }],
+
+    "transform": [{"filter": "datum.Total_victims < Outlier.min"}],
+
+    "encoding": {
+                
+                "x": {
+                    "field": "Date",
+                    "timeUnit": "date",
+                    "type": "ordinal",
+                    "title": "Day",
+                    "axis": {
+                    "labelAngle": 0,
+                    "format": "%e"}
+                    },
+                "y": {
+                    "field": "Date",
+                    "timeUnit": "month",
+                    "type": "ordinal",
+                    "title": "Month"
+                },
+                
+                "tooltip": [
+                    {"field": "Fatalities", "aggregate": "sum", "format": ",", "type": "quantitative"},
+                    {"field": "Injured", "aggregate": "sum", "format": ",", "type": "quantitative"}]                
+            },       
+        "layer": [{
+            
+            "mark": "rect",
+            
+            "encoding": {
+                
+                "color": {
+                    "field": "Total_victims",
+                    "aggregate": "sum",
+                    "type": "quantitative",
+                    "scale":{"scheme":"reds"},
+                    "legend": {
+                        "title": null
+                             }
+                        }
+                    }                
+            },
+            {
+                
+                "mark": "text",
+                
+                "encoding": {
+                "text": {"field": "Total_victims", "type": "quantitative", "aggregate":"sum"}
+                        }
+            }
+         
+            
+        ],
+    
+    "config": {
+        
+        "view": {
+            "strokeWidth": 0
+        },
+      
+        "axis": {
+            "titleFontSize": 15,
+            "domain": false,
+            "labelFontSize": 15
+            
+        }
+    
+
+    
+    }
+    
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

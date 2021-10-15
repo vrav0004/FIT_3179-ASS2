@@ -1,0 +1,78 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "melted_df.csv"},
+        
+    "width": 1050,
+    "height": 500,
+    "autosize": {
+        "type": "fit",
+        "contains": "padding",
+        "resize": true
+      },
+      "config": {
+        "axis": {
+          "titleFontSize": 15,
+          "domain": false,
+          "labelFontSize": 15
+          
+      },
+      "legend": {"titleFontSize": 15, "labelFontSize": 15, "title": null}
+      },
+    "layer": [{
+      
+       "params": [{
+        "name": "brush",
+        "select": {"type": "interval", "encodings": ["x"]}
+      }],
+
+        "mark":"bar",
+        "transform": [{
+            "calculate": "if(datum.Type_of_Victim === 'Fatalities', 0, 1)",
+            "as": "siteOrder"
+          }],
+    
+        "encoding": {
+            "x": {"field": "Date",  "timeUnit": "year",  "type": "ordinal", "title": "Year",
+            "axis": {
+                "labelAngle": 90
+                    }
+                },
+
+            "y": {"field": "Number_of_Victims", "aggregate": "sum", "type": "quantitative",
+                "title": "Total Number of Victums"
+        },
+            
+           "color":{"field":"Type_of_Victim",
+                "condition":[{"test": "datum['Type_of_Victim'] === 'Fatalities'", "value": "black"
+                }, {"test": "datum['Type_of_Victim'] === 'Injured'", "value": "#bb0a1e"}],
+                "scale": {"range" :["black", "#bb0a1e"]}
+            },
+            
+        "order": {"field":"siteOrder"},
+        "tooltip":[{"field": "Number_of_Victims","aggregate": "sum", "title": "Total Number of Victims", "type": "quantitative"}]
+   
+         }     
+    },
+    {
+        "transform": [{
+            "filter": {"param": "brush"}
+          }],
+
+        "mark": "rule",
+        "encoding": {
+          "y": {
+            "aggregate": "sum",
+            "field": "Number_of_Victims",
+            "type": "quantitative"
+          },
+          "color": {"value": "red"},
+          "size": {"value": 3}
+
+          
+        }
+        
+      }
+      
+    ]
+
+}
