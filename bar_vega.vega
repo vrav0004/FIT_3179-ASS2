@@ -1,0 +1,72 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "mass_shootings2.csv"},
+  
+    "autosize": {
+        "type": "fit",
+        "contains": "padding",
+        "resize": true
+      },
+     
+         
+      "config": {
+        "axis": {
+          "titleFontSize": 15,
+          "domain": false,
+          "labelFontSize": 15
+          
+      },
+      "legend": {"titleFontSize": 15, "labelFontSize": 15, "title": null}
+      },
+    "vconcat": [{
+       
+        "width": 890,
+        "height": 400,
+        "mark": "bar",
+        "transform": [{"filter": {"param": "time_brush"}}],
+        "encoding": {
+         
+            "y":{
+                "field": "Cause",
+                "type": "nominal",
+                "axis":{ "labelAngle": 0}
+            },
+            "x": {
+                "field": "Cause",
+                "type": "quantitative",
+                "aggregate":"count"},
+
+            "tooltip":[{"field":"Cause",  "type": "quantitative",  "aggregate":"count", "title": "Total number of Incidents"}], 
+            "color": {"value":"#bb0a1e"}
+        }
+         
+    },{
+        "width": 890,
+        "height": 100,
+        "mark": "line",
+        
+        "params": [{ "name": "time_brush",
+            "select": {"type": "interval", "encodings": ["x"]}
+        }],
+        
+        "encoding": {
+            "color": {"value":"#bb0a1e"},
+            "x": {
+             "title": "Date",
+              "field": "Date",
+              "type": "ordinal",
+              "timeUnit": "yearmonthdate",
+              "axis":{"format": "%Y-%m", "labelAngle": -45}            
+            },
+            "y":{
+                "field": "Total_victims",
+                "title": "Total Vitcims",
+                "type":"quantitative" ,
+                "aggregate": "sum",
+                "axis": {"tickCount": 3, "grid": false}
+            
+            }
+        }
+
+    }]
+    }
